@@ -3,7 +3,6 @@
 }
 
 body{
-  background-color: pink;
 }
 
 header{
@@ -49,3 +48,6 @@ main{
   width: 10%;
 }
 
+.grid div.block{
+  background: cyan;
+}
