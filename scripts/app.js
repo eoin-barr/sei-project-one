@@ -17,8 +17,8 @@ const cells = []
 
 //* GAMES VARIABLES
 let blockPosition = 5
-
-
+let filledCells = []
+let isFalling = true
 
 
 
@@ -41,6 +41,16 @@ function removeBlock(position) {
   cells[position].classList.remove('block')
 }
 
+function checkIfGameOver() {
+  return filledCells.some(num => {
+    if (num <= width - 1) {
+      return num
+    }
+  })
+}
+
+
+
 
 function fallingInterval() {
   const intervalId = setInterval(() => {
@@ -50,6 +60,13 @@ function fallingInterval() {
     const y = Math.floor(blockPosition / width)
     if (y === width - 1) {
       clearInterval(intervalId)
+      filledCells.push(blockPosition)
+      console.log(filledCells)
+      if (checkIfGameOver) {
+        isFalling === false
+      } else {
+        isFalling === true
+      }
       // return isFalling = window.confirm('Would you like another block?')
     }
   }, 1000)
