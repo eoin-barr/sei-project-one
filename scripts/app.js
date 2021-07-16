@@ -41,6 +41,10 @@ function removeBlock(position) {
   cells[position].classList.remove('block')
 }
 
+for (let i = 0; i < filledCells.length; i++) {
+  addBlock(filledCells[i])
+}
+
 function checkIfGameOver() {
   return filledCells.some(num => {
     if (num <= width - 1) {
@@ -51,28 +55,31 @@ function checkIfGameOver() {
 
 
 
-
 function fallingInterval() {
+  blockPosition = 5
   const intervalId = setInterval(() => {
     blockPosition = blockPosition + width
     removeBlock(blockPosition - width)
     addBlock(blockPosition)
     const y = Math.floor(blockPosition / width)
-    if (y === width - 1) {
+    if (y === width - 1 || filledCells.some(num => {
+      if (num === blockPosition + width) {
+        return num
+      }
+    })) {
       clearInterval(intervalId)
       filledCells.push(blockPosition)
       console.log(filledCells)
-      if (checkIfGameOver) {
-        isFalling === false
-      } else {
-        isFalling === true
-      }
-      // return isFalling = window.confirm('Would you like another block?')
+      return fallingInterval()
+      // if (checkIfGameOver === true) {
+      //   return isFalling === false
+      // } else {
+      //   return isFalling = true
+      // }
     }
   }, 1000)
 }
-fallingInterval()
-
+// fallingInterval()
 
 function handleKeyUp(event) {
   removeBlock(blockPosition) // * remove block from the current position
@@ -108,9 +115,9 @@ function handleKeyUp(event) {
 
 
 function handleResetGameClick() {
-  let isFalling = true
   while (isFalling) {
     fallingInterval()
+    blockPosition = 5
   }
 }
 
