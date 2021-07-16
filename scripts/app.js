@@ -1,6 +1,8 @@
 //* DOM VARIABLES
 const grid = document.querySelector('.grid')
 const resetGame = document.querySelector('.reset')
+const gameOverPopUp = document.querySelector('.game-over')
+
 
 
 
@@ -53,6 +55,13 @@ function checkIfGameOver() {
   })
 }
 
+function gameOver() {
+  gameOverPopUp.classList.add('pop-up')
+  grid.style.display = 'none'
+  fallingInterval = false
+}
+
+
 
 
 function fallingInterval() {
@@ -62,7 +71,14 @@ function fallingInterval() {
     removeBlock(blockPosition - width)
     addBlock(blockPosition)
     const y = Math.floor(blockPosition / width)
-    if (y === width - 1 || filledCells.some(num => {
+    if (filledCells.some(num => {
+      if (num <= width + 10) {
+        return num
+      }
+    })) {
+      console.log('GAME OVER')
+      return gameOver()
+    } else if (y === width - 1 || filledCells.some(num => {
       if (num === blockPosition + width) {
         return num
       }
@@ -79,7 +95,7 @@ function fallingInterval() {
     }
   }, 1000)
 }
-// fallingInterval()
+fallingInterval()
 
 function handleKeyUp(event) {
   removeBlock(blockPosition) // * remove block from the current position
