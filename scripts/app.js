@@ -4,24 +4,16 @@ const resetGame = document.querySelector('.reset')
 const gameOverPopUp = document.querySelector('.game-over')
 
 
-
-
-
-
 //* GRID VARIABLES
 const width = 10
 const gridCellCount = width * width
 const cells = []
 
 
-
-
-
 //* GAMES VARIABLES
+let points = 0
 let blockPosition = 5
 let filledCells = []
-let isFalling = true
-
 
 
 //* FUNCTIONS
@@ -55,14 +47,47 @@ function checkIfGameOver() {
   })
 }
 
+filledCells.some(num => {
+  if (num <= width - 1) {
+    return num
+  }
+})
+
 function gameOver() {
   gameOverPopUp.classList.add('pop-up')
   grid.style.display = 'none'
-  fallingInterval = false
 }
 
-
-
+function fullRowCheck(arrToCheck) {
+  const getFirstDigit = arrToCheck.map(num => {
+    const str = String(num)
+    return parseInt(str[0])
+  })
+  const objOfFirstDigits = getFirstDigit.reduce((obj, item) => {
+    if (!obj[item]) {
+      obj[item] = 0
+    }
+    obj[item]++
+    return obj
+  }, {})
+  const arrOfObjValues = Object.values(objOfFirstDigits)
+  const arrOfObjKeys = Object.keys(objOfFirstDigits)
+  const testForFullRow = arrOfObjValues.findIndex(item => {
+    return item === width
+  })
+  if (testForFullRow >= 0) {
+    points += 1000
+    const finalString = arrOfObjKeys[testForFullRow]
+    const finalNumber = parseInt(finalString)
+    const finalArr = []
+    for (let i = 0; i < width; i++) {
+      finalArr.push((finalNumber * 10) + i)
+      for (let i = 0; i < finalArr.length; i++) {
+        removeBlock(finalArr[i])
+      }
+    }
+  }
+}
 
 function fallingInterval() {
   blockPosition = 5
@@ -86,12 +111,8 @@ function fallingInterval() {
       clearInterval(intervalId)
       filledCells.push(blockPosition)
       console.log(filledCells)
+      fullRowCheck(filledCells)
       return fallingInterval()
-      // if (checkIfGameOver === true) {
-      //   return isFalling === false
-      // } else {
-      //   return isFalling = true
-      // }
     }
   }, 1000)
 }
