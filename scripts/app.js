@@ -41,22 +41,25 @@ for (let i = 0; i < filledCells.length; i++) {
 
 function checkIfGameOver() {
   return filledCells.some(num => {
-    if (num <= width - 1) {
+    if (num <= width + 10) {
       return num
     }
   })
 }
 
-filledCells.some(num => {
-  if (num <= width - 1) {
-    return num
-  }
-})
-
 function gameOver() {
   gameOverPopUp.classList.add('pop-up')
   grid.style.display = 'none'
 }
+
+function checkIfBlockBelow() {
+  return filledCells.some(num => {
+    if (num === blockPosition + width) {
+      return num
+    }
+  })
+}
+
 
 function fullRowCheck(arrToCheck) {
   const getFirstDigit = arrToCheck.map(num => {
@@ -89,6 +92,9 @@ function fullRowCheck(arrToCheck) {
   }
 }
 
+
+
+
 function fallingInterval() {
   blockPosition = 5
   const intervalId = setInterval(() => {
@@ -96,18 +102,10 @@ function fallingInterval() {
     removeBlock(blockPosition - width)
     addBlock(blockPosition)
     const y = Math.floor(blockPosition / width)
-    if (filledCells.some(num => {
-      if (num <= width + 10) {
-        return num
-      }
-    })) {
+    if (checkIfGameOver()) {
       console.log('GAME OVER')
       return gameOver()
-    } else if (y === width - 1 || filledCells.some(num => {
-      if (num === blockPosition + width) {
-        return num
-      }
-    })) {
+    } else if (y === width - 1 || checkIfBlockBelow()) {
       clearInterval(intervalId)
       filledCells.push(blockPosition)
       console.log(filledCells)
