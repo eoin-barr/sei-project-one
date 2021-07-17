@@ -61,6 +61,9 @@ function checkIfBlockBelow() {
 }
 
 
+
+const indivDiv = document.querySelectorAll('.grid div')
+
 function fullRowCheck(arrToCheck) {
   const getFirstDigit = arrToCheck.map(num => {
     const str = String(num)
@@ -87,8 +90,27 @@ function fullRowCheck(arrToCheck) {
       finalArr.push((finalNumber * 10) + i)
       for (let i = 0; i < finalArr.length; i++) {
         removeBlock(finalArr[i])
+        filledCells = filledCells.filter(item => {
+          if (item !== finalArr[i]) {
+            return item
+          }
+        })
       }
+    } filledCells = filledCells.map(item => {
+      if (indivDiv[item + width].classList.contains('block')) {
+        return item
+      } else {
+        removeBlock(item)
+        return item + width
+      }
+    })
+    const iterator = filledCells.values()
+    for (let value of iterator) {
+      addBlock(value)
     }
+    return filledCells
+  } else {
+    return filledCells
   }
 }
 
@@ -108,20 +130,18 @@ function fallingInterval() {
     } else if (y === width - 1 || checkIfBlockBelow()) {
       clearInterval(intervalId)
       filledCells.push(blockPosition)
-      console.log(filledCells)
       fullRowCheck(filledCells)
       return fallingInterval()
     }
   }, 1000)
 }
-fallingInterval()
 
 function handleKeyUp(event) {
   removeBlock(blockPosition) // * remove block from the current position
   const x = blockPosition % width
   const y = Math.floor(blockPosition / width)
 
-  if (y < width - 1) {
+  if (y < width - 1 || checkIfBlockBelow() === false) {
     switch (event.keyCode) { // * calculate the next position and update it
       case 39:
         if (x < width - 1) blockPosition++
@@ -140,22 +160,13 @@ function handleKeyUp(event) {
     }
     addBlock(blockPosition) // * add block back at the new position
   } else {
-    let blockToRemain = blockPosition
-    addBlock(blockToRemain)
     console.log('it works')
   }
 }
 
-
-
-
 function handleResetGameClick() {
-  while (isFalling) {
-    fallingInterval()
-    blockPosition = 5
-  }
+  fallingInterval()
 }
-
 
 
 
