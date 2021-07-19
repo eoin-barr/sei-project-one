@@ -45,7 +45,6 @@ function removeBlock(position) {
   cells[position].classList.remove('block')
 }
 
-
 for (let i = 0; i < filledCells.length; i++) {
   addSquareBlock(filledCells[i])
 }
@@ -70,14 +69,11 @@ function handleResetGameClick() {
 }
 
 function randomNumber() {
-  return Math.floor(Math.random() * 7)
-  // return 6
+  // return Math.floor(Math.random() * 7)
+  return 2
 }
 
-
 const indivDiv = document.querySelectorAll('.grid div')
-
-
 
 function tetris() {
   const randNum = randomNumber()
@@ -98,6 +94,7 @@ function tetris() {
   }
 
   fullRowCheck()
+  console.log(filledCells)
 }
 
 //! CHECKS FOR FULL ROW, REMOVES AND MOVES ABOVE BLOCKS DOWN ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +135,6 @@ function fullRowCheck() {
   }
 }
 
-
 //! HANDLEING KEY UP FOR DIFFERENT BLOCK TYPES ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function handleKeyUp(event) {
@@ -155,7 +151,7 @@ function handleKeyUp(event) {
           if (x > 1 && !squareCheckIfBlockLeft()) blockPosition--
           break
         case 38:
-          if (y > 0) blockPosition -= width
+          if (y > 0) console.log('rotated')
           break
         case 40:
           if (y < width - 1 && !squareCheckIfBlockBelow()) blockPosition += width
@@ -201,10 +197,10 @@ function handleKeyUp(event) {
           if (x > 1 && !tCheckIfBlockLeft()) blockPosition--
           break
         case 38:
-          if (y > 0) blockPosition -= width
+          if (y > 0) return fallingTRot90Block()
           break
         case 40:
-          if (y < width - 1 && !tCheckIfBlockBelow()) blockPosition += width
+          if (y < width - 2 && !tCheckIfBlockBelow()) blockPosition += width
           break
         default:
           console.log('invalid key do nothing')
@@ -302,6 +298,29 @@ function handleKeyUp(event) {
           console.log('invalid key do nothing')
       }
       addJBlock(blockPosition)
+    } else {
+      console.log('it works')
+    }
+  } else if (isTRot90) {
+    removeTRot90Block(blockPosition)
+    if (y < height - 2) {
+      switch (event.keyCode) {
+        case 39:
+          if (x < width - 2 && !tRot90CheckIfBlockRight()) blockPosition++
+          break
+        case 37:
+          if (x >= 1 && !tRot90CheckIfBlockLeft()) blockPosition--
+          break
+        case 38:
+          if (y > 0) blockPosition -= width
+          break
+        case 40:
+          if (y < width - 2 && !tRot90CheckIfBlockBelow()) blockPosition += width
+          break
+        default:
+          console.log('invalid key do nothing')
+      }
+      addTRot90Block(blockPosition)
     } else {
       console.log('it works')
     }
@@ -447,7 +466,7 @@ function fallingLineBlock() {
 
 function tCheckIfBlockBelow() {
   return filledCells.some(num => {
-    if (num === blockPosition + width || num === blockPosition - 1 || num === blockPosition + 1) {
+    if (num === blockPosition + width + width || num === blockPosition + width - 1 || num === blockPosition + width + 1) {
       return num
     }
   })
@@ -455,7 +474,7 @@ function tCheckIfBlockBelow() {
 
 function tCheckIfBlockRight() {
   return filledCells.some(num => {
-    if (num === blockPosition + 1 || num === blockPosition - width + 2) {
+    if (num === blockPosition + 2 || num === blockPosition + width + 1) {
       return num
     }
   })
@@ -463,7 +482,7 @@ function tCheckIfBlockRight() {
 
 function tCheckIfBlockLeft() {
   return filledCells.some(num => {
-    if (num === blockPosition - 1 || num === blockPosition - width - 2) {
+    if (num === blockPosition - 2 || num === blockPosition + width - 1) {
       return num
     }
   })
@@ -471,23 +490,23 @@ function tCheckIfBlockLeft() {
 
 function addTBlock(position) {
   cells[position].classList.add('block')
-  cells[position - width].classList.add('block')
-  cells[position - width - 1].classList.add('block')
-  cells[position - width + 1].classList.add('block')
+  cells[position - 1].classList.add('block')
+  cells[position + 1].classList.add('block')
+  cells[position + width].classList.add('block')
 }
 
 function removeTBlock(position) {
   cells[position].classList.remove('block')
-  cells[position - width].classList.remove('block')
-  cells[position - width - 1].classList.remove('block')
-  cells[position - width + 1].classList.remove('block')
+  cells[position - 1].classList.remove('block')
+  cells[position + 1].classList.remove('block')
+  cells[position + width].classList.remove('block')
 }
 
 function addTFilledCells() {
   filledCells.push(blockPosition)
-  filledCells.push(blockPosition - width)
-  filledCells.push(blockPosition - width - 1)
-  filledCells.push(blockPosition - width + 1)
+  filledCells.push(blockPosition - 1)
+  filledCells.push(blockPosition + 1)
+  filledCells.push(blockPosition + width)
 }
 
 function fallingTBlock() {
@@ -498,10 +517,16 @@ function fallingTBlock() {
     removeTBlock(blockPosition - width)
     addTBlock(blockPosition)
     const y = Math.floor(blockPosition / width)
-    if (checkIfGameOver()) {
+    if (isTRot90) {
+      console.log('TRotators')
+      clearInterval(intervalId)
+
+      // addTRot90Block(blockPosition)
+      removeTBlock(blockPosition)
+    } else if (checkIfGameOver()) {
       console.log('GAME OVER')
       return gameOver()
-    } else if (y === height - 1 || tCheckIfBlockBelow()) {
+    } else if (y === height - 2 || tCheckIfBlockBelow()) {
       clearInterval(intervalId)
       addTFilledCells()
       isT = false
@@ -510,6 +535,83 @@ function fallingTBlock() {
     }
   }, 1000)
 }
+
+//! T ROTATE 90 BLOCK  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let isTRot90 = false
+
+function tRot90CheckIfBlockBelow() {
+  return filledCells.some(num => {
+    if (num === blockPosition + width + width || num === blockPosition + width + 1) {
+      return num
+    }
+  })
+}
+
+function tRot90CheckIfBlockRight() {
+  return filledCells.some(num => {
+    if (num === blockPosition + width + width || num === blockPosition - width + 1 || num === blockPosition + width + 1) {
+      return num
+    }
+  })
+}
+
+function tRot90CheckIfBlockLeft() {
+  return filledCells.some(num => {
+    if (num === blockPosition - 1 || num === blockPosition - width - 1 || num === blockPosition + width - 1) {
+      return num
+    }
+  })
+}
+
+function addTRot90Block(position) {
+  cells[position].classList.add('block')
+  cells[position - width].classList.add('block')
+  cells[position + width].classList.add('block')
+  cells[position + 1].classList.add('block')
+}
+
+function removeTRot90Block(position) {
+  cells[position].classList.remove('block')
+  cells[position - width].classList.remove('block')
+  cells[position + width].classList.remove('block')
+  cells[position + 1].classList.remove('block')
+}
+
+function addTRot90FilledCells() {
+  filledCells.push(blockPosition)
+  filledCells.push(blockPosition - width)
+  filledCells.push(blockPosition + width)
+  filledCells.push(blockPosition + 1)
+}
+
+function fallingTRot90Block() {
+  isT = false
+  isTRot90 = true
+  console.log(blockPosition)
+  addTRot90Block(blockPosition)
+
+  // isT = true
+  // blockPosition = 15
+  const intervalId = setInterval(() => {
+    blockPosition = blockPosition + width
+    removeTRot90Block(blockPosition - width)
+    addTRot90Block(blockPosition)
+    const y = Math.floor(blockPosition / width)
+    if (checkIfGameOver()) {
+      console.log('GAME OVER')
+      return gameOver()
+    } else if (y === height - 2 || tRot90CheckIfBlockBelow()) {
+      clearInterval(intervalId)
+      addTRot90FilledCells()
+      isTRot90 = false
+      // fullRowCheck(filledCells)
+      return tetris()
+    }
+  }, 1000)
+}
+
+
+
 
 
 //! S BLOCK  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -792,3 +894,4 @@ function fallingJBlock() {
 
 resetGame.addEventListener('click', handleResetGameClick)
 window.addEventListener('keyup', handleKeyUp)
+
