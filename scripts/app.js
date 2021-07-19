@@ -3,6 +3,8 @@ const grid = document.querySelector('.grid')
 const resetGame = document.querySelector('.reset')
 const gameOverPopUp = document.querySelector('.game-over')
 const scoreDisplay = document.querySelector('#score-display')
+const music = document.querySelector('audio')
+const musicBtn = document.querySelector('.music')
 
 
 //* GRID VARIABLES
@@ -36,6 +38,21 @@ function createGrid() {
   }
 }
 createGrid()
+
+let musicClick = 0
+
+function handleMusicClick() {
+  musicClick += 1
+  console.log(musicClick)
+  if (musicClick % 2 === 0) {
+    musicBtn.innerHTML = 'Music Off &#128264;'
+    music.src = ''
+  } else {
+    musicBtn.innerHTML = 'Music On &#128264;'
+    music.src = './sounds/tetris_theme_a.mp3'
+    music.play()
+  }
+}
 
 function addBlock(position) {
   cells[position].classList.add('block')
@@ -894,4 +911,5 @@ function fallingJBlock() {
 
 resetGame.addEventListener('click', handleResetGameClick)
 window.addEventListener('keyup', handleKeyUp)
+musicBtn.addEventListener('click', handleMusicClick)
 
