@@ -15,7 +15,7 @@ main{
   justify-content: space-between;
 }
 
-.left, .right{
+.left, .right, .score-board{
   display: flex;
   flex-direction: column;
   justify-content: center;

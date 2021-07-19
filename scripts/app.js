@@ -2,6 +2,7 @@
 const grid = document.querySelector('.grid')
 const resetGame = document.querySelector('.reset')
 const gameOverPopUp = document.querySelector('.game-over')
+const scoreDisplay = document.querySelector('#score-display')
 
 
 //* GRID VARIABLES
@@ -12,7 +13,7 @@ const cells = []
 
 
 //* GAMES VARIABLES
-let points = 0
+let score = 0
 let blockPosition = 15
 let filledCells = []
 
@@ -96,7 +97,45 @@ function tetris() {
     fallingJBlock()
   }
 
+  fullRowCheck()
+}
 
+//! CHECKS FOR FULL ROW, REMOVES AND MOVES ABOVE BLOCKS DOWN ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function fullRowCheck() {
+  const sortedArr = filledCells.sort((a, b) => {
+    return a - b
+  })
+  let finalArr = []
+  let newRowCheckArr = []
+  for (let i = 0; i < sortedArr.length; i++) {
+    if (sortedArr[i] % width === 0 && ((sortedArr[i] + (width - 1)) === (sortedArr[i + (width - 1)]))) {
+      newRowCheckArr.push(sortedArr[i])
+    }
+  } if (newRowCheckArr.length < 0) {
+    console.log('hopefully this is not printed')
+  } else {
+    score += (1000 * newRowCheckArr.length)
+    scoreDisplay.textContent = score
+    for (let i = 0; i < newRowCheckArr.length; i++) {
+      for (let j = 0; j < width; j++) {
+        finalArr.push(newRowCheckArr[i] + j)
+      }
+    }
+    finalArr.forEach(item => removeBlock(item))
+    const removeFullRows = sortedArr.filter(item => {
+      return !finalArr.includes(item)
+    })
+    filledCells = removeFullRows.map(item => {
+      if (item < newRowCheckArr[0]) {
+        removeBlock(item)
+        return item + (width * newRowCheckArr.length)
+      } else {
+        return item
+      }
+    })
+    filledCells.forEach(item => addBlock(item))
+  }
 }
 
 
@@ -747,73 +786,6 @@ function fallingJBlock() {
     }
   }, 1000)
 }
-
-
-
-//! TEST BLOCK  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//! FUNCTION FOR FULL CHECKING FULL ROW WORKED FOR HEIGHT OF 10 WILL NOT WORK FOR HEIGHT > 10 /////////////////////////////////////////////////////////////////////
-
-// function fullRowsCheck(arrToCheck) {
-//   const getFirstDigit = arrToCheck.map(num => {
-//     const str = String(num)
-//     return parseInt(str[0])
-//   })
-//   const objOfFirstDigits = getFirstDigit.reduce((obj, item) => {
-//     if (!obj[item]) {
-//       obj[item] = 0
-//     }
-//     obj[item]++
-//     return obj
-//   }, {})
-//   let arrOfObject = Object.entries(objOfFirstDigits)
-//   const rowFilled = arrOfObject.filter(item => {
-//     if (item[1] === 10) {
-//       return item
-//     }
-//   })
-//   console.log(arrOfObject)
-//   if (rowFilled.length > 0) {
-//     const numOfRowFilled = rowFilled.map(item => {
-//       return item[0]
-//     })
-//     const arrOfRowFilled = []
-//     for (let i = 0; i < numOfRowFilled.length; i++) {
-//       for (let j = 0; j < width; j++) {
-//         arrOfRowFilled.push((numOfRowFilled[i] * 10) + j)
-//         for (let index = 0; index < arrOfRowFilled.length; index++) {
-//           removeBlock(arrOfRowFilled[index])
-//           filledCells = filledCells.filter(item => {
-//             if (item !== arrOfRowFilled[index]) {
-//               return item
-//             }
-//           })
-//         }
-//       }
-//       //? Output from above is filled cells of any cells above the emptied rows
-//       //!TRYING TO PUSH DOWN CELLS THAT NOW DON'T HAVE BLOCKS BELOW THEM (if square blocks returns botom)
-//       //! REFECTOR CODE
-//     }
-//     filledCells = filledCells.map(item => {
-//       if (!indivDiv[item + width + width].classList.contains('block')) {
-//         addBlock(item + width + width)
-//         removeBlock(item)
-//         return item + width + width
-//       } else if (!indivDiv[item + width].classList.contains('block')) {
-//         addBlock(item + width)
-//         removeBlock(item)
-//         return item + width
-//       } else {
-//         return item
-//       }
-//     })
-//   } else {
-//     return filledCells
-//   }
-// }
-
-
 
 
 //! EVENTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
