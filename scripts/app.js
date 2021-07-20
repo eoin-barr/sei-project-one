@@ -72,18 +72,24 @@ const oBlock = [
   [0, 1, width, 1 + width]
 ]
 const blocks = [lBlock, iBlock, tBlock, sBlock, zBlock, oBlock]
-
 let currentRotation = 0
 let rand = Math.floor(Math.random() * blocks.length)
-
 let currentShape = blocks[rand][currentRotation]
-
-
 let currentCell = 4
-
 const x = currentCell % width
 
+function checkIfGameOver() {
+  return filledCells.some(num => {
+    if (num <= width) {
+      return num
+    }
+  })
+}
 
+function gameOver() {
+  gameOverPopUp.classList.add('pop-up')
+  grid.style.display = 'none'
+}
 
 function generateBlock() {
   return currentShape.forEach(index => {
@@ -97,13 +103,18 @@ function removeBlock() {
   })
 }
 
-// const intervalId = setInterval(blockFall, 500)
+const intervalId = setInterval(blockFall, 500)
 
 function blockFall() {
   if (checkForBottom() && !checkBlockBelow()) {
     removeBlock()
     currentCell += width
     generateBlock()
+  } else if (checkIfGameOver()) {
+    clearInterval(intervalId)
+    console.log('Game Over')
+    gameOver()
+    return
   } else {
     addToFilledCells()
     console.log(filledCells)
@@ -213,6 +224,14 @@ function rotateBlock() {
 }
 
 
+
+
+
+
+
+
+
+
 function addClass(position) {
   cells[position].classList.add('block')
 }
@@ -222,7 +241,6 @@ function removeClass(position) {
 }
 
 function fullRowCheck() {
-  console.log('***')
   const sortedArr = filledCells.sort((a, b) => {
     return a - b
   })
