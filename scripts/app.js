@@ -97,7 +97,7 @@ function removeBlock() {
   })
 }
 
-// let intervalId = setInterval(blockFall, 1000)
+// const intervalId = setInterval(blockFall, 500)
 
 function blockFall() {
   if (checkForBottom() && !checkBlockBelow()) {
@@ -105,11 +105,10 @@ function blockFall() {
     currentCell += width
     generateBlock()
   } else {
-    // addingBlocks()
     addToFilledCells()
-    // addingFilledCellsToGrid()
     console.log(filledCells)
     anotherBlock()
+    fullRowCheck()
   }
 }
 
@@ -193,6 +192,9 @@ function handleKeyUp(e) {
     case 40:
       if (checkForBottom() && !checkBlockBelow()) currentCell += width
       break
+    case 38:
+      if (checkForBottom() && !checkBlockBelow()) rotateBlock()
+      break
     default:
       console.log('unable to move')
   }
@@ -200,156 +202,62 @@ function handleKeyUp(e) {
 }
 
 
+function rotateBlock() {
+  removeBlock()
+  currentRotation++
+  if (currentRotation === 4) {
+    currentRotation = 0
+  }
+  currentShape = blocks[rand][currentRotation]
+  generateBlock()
+}
 
 
+function addClass(position) {
+  cells[position].classList.add('block')
+}
 
+function removeClass(position) {
+  cells[position].classList.remove('block')
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function rotateBlock() {
-//   if (currentRotation < currentShape.length) {
-//     currentRotation++
-//   } else {
-//     currentRotation === 0
-//   }
-// }
-
-
-
-
-
-
-// function addingFilledCellsToGrid() {
-//   return filledCells.forEach(num => {
-//     return cells[num].classList.add('block')
-//   })
-// }
-
-// function checkLeft() {
-//   const x = currentShape.map(index => {
-//     return (index + currentCell) % width
-//   })
-//   console.log(x)
-//   return x.every(item => {
-//     if (item > 1) {
-//       return item
-//     }
-//   })
-// }
-
-
-// function addingBlocks() {
-//   return currentShape.forEach(block => {
-//     cells[block + currentCell].classList.add('block')
-//   })
-// }
-
-
-
-//! HANDLEING KEY UP FOR DIFFERENT BLOCK TYPES ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// function handleKeyUp(event) {
-//   const x = blockPosition % width
-//   const y = Math.floor(blockPosition / height)
-//   if (isSquare) {
-//     removeSquareBlock(blockPosition)
-//     if (y < height - 1) {
-//       switch (event.keyCode) {
-//         case 39:
-//           if (x < width - 1 && !squareCheckIfBlockRight()) blockPosition++
-//           break
-//         case 37:
-//           if (x > 1 && !squareCheckIfBlockLeft()) blockPosition--
-//           break
-//         case 38:
-//           if (y > 0) console.log('rotated')
-//           break
-//         case 40:
-//           if (y < width - 1 && !squareCheckIfBlockBelow()) blockPosition += width
-//           break
-//         default:
-//           console.log('invalid key do nothing')
-//       }
-//       addSquareBlock(blockPosition)
-//     } else {
-//       console.log('it works')
-//     }
-//   } else if (isLine) {
-
-//! CHECKS FOR FULL ROW, REMOVES AND MOVES ABOVE BLOCKS DOWN ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// function fullRowCheck() {
-//   const sortedArr = filledCells.sort((a, b) => {
-//     return a - b
-//   })
-//   let finalArr = []
-//   let newRowCheckArr = []
-//   for (let i = 0; i < sortedArr.length; i++) {
-//     if (sortedArr[i] % width === 0 && ((sortedArr[i] + (width - 1)) === (sortedArr[i + (width - 1)]))) {
-//       newRowCheckArr.push(sortedArr[i])
-//     }
-//   } if (newRowCheckArr.length < 0) {
-//     console.log('hopefully this is not printed')
-//   } else {
-//     score += (1000 * newRowCheckArr.length)
-//     scoreDisplay.textContent = score
-//     for (let i = 0; i < newRowCheckArr.length; i++) {
-//       for (let j = 0; j < width; j++) {
-//         finalArr.push(newRowCheckArr[i] + j)
-//       }
-//     }
-//     finalArr.forEach(item => removeBlock(item))
-//     const removeFullRows = sortedArr.filter(item => {
-//       return !finalArr.includes(item)
-//     })
-//     filledCells = removeFullRows.map(item => {
-//       if (item < newRowCheckArr[0]) {
-//         removeBlock(item)
-//         return item + (width * newRowCheckArr.length)
-//       } else {
-//         return item
-//       }
-//     })
-//     filledCells.forEach(item => addBlock(item))
-//   }
-// }
-
-
-
+function fullRowCheck() {
+  console.log('***')
+  const sortedArr = filledCells.sort((a, b) => {
+    return a - b
+  })
+  let finalArr = []
+  let newRowCheckArr = []
+  for (let i = 0; i < sortedArr.length; i++) {
+    if (sortedArr[i] % width === 0 && ((sortedArr[i] + (width - 1)) === (sortedArr[i + (width - 1)]))) {
+      newRowCheckArr.push(sortedArr[i])
+    }
+  } if (newRowCheckArr.length < 0) {
+    console.log('hopefully this is not printed')
+  } else {
+    score += (1000 * newRowCheckArr.length)
+    scoreDisplay.textContent = score
+    for (let i = 0; i < newRowCheckArr.length; i++) {
+      for (let j = 0; j < width; j++) {
+        finalArr.push(newRowCheckArr[i] + j)
+      }
+    }
+    finalArr.forEach(item => removeClass(item))
+    const removeFullRows = sortedArr.filter(item => {
+      return !finalArr.includes(item)
+    })
+    filledCells = removeFullRows.map(item => {
+      if (item < newRowCheckArr[0]) {
+        removeClass(item)
+        return item + (width * newRowCheckArr.length)
+      } else {
+        return item
+      }
+    })
+    filledCells.forEach(item => addClass(item))
+    console.log(filledCells)
+  }
+}
 
 
 //! EVENTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
