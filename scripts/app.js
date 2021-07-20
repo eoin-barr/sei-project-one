@@ -75,7 +75,7 @@ const blocks = [lBlock, iBlock, tBlock, sBlock, zBlock, oBlock]
 let currentRotation = 0
 let rand = Math.floor(Math.random() * blocks.length)
 let currentShape = blocks[rand][currentRotation]
-let currentCell = 4
+let currentCell = 3
 const x = currentCell % width
 
 function checkIfGameOver() {
@@ -103,7 +103,7 @@ function removeBlock() {
   })
 }
 
-const intervalId = setInterval(blockFall, 500)
+// const intervalId = setInterval(blockFall, 500)
 
 function blockFall() {
   if (checkForBottom() && !checkBlockBelow()) {
