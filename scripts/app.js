@@ -19,7 +19,7 @@ let score = 0
 let filledCells = []
 
 
-//! GLOBAL FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//! TETRIS FUNCTIONS ////////////////////////////////////////////////////////////
 function createGrid() {
   for (let i = 0; i < gridCellCount; i++) {
     const cell = document.createElement('div')
@@ -260,8 +260,28 @@ function fullRowCheck() {
 }
 
 
+//! EXTRA FUNCTIONS ////////////////////////////////////////////////////////////
+
+let musicClick = 0
+
+function handleMusicClick() {
+  musicClick += 1
+  console.log(musicClick)
+  if (musicClick % 2 === 0) {
+    musicBtn.innerHTML = 'Music Off &#128263;'
+    music.src = ''
+  } else {
+    musicBtn.innerHTML = 'Music On &#128266;'
+    music.src = './sounds/tetris_theme_a.mp3'
+    music.play()
+  }
+}
+
+
+
+
 //! EVENTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // resetGame.addEventListener('click', handleResetGameClick)
 window.addEventListener('keyup', handleKeyUp)
-// musicBtn.addEventListener('click', handleMusicClick)
+musicBtn.addEventListener('click', handleMusicClick)
