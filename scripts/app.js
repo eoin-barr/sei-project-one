@@ -103,7 +103,7 @@ function removeBlock() {
   })
 }
 
-// const intervalId = setInterval(blockFall, 500)
+const intervalId = setInterval(blockFall, 500)
 
 function blockFall() {
   if (checkForBottom() && !checkBlockBelow()) {
@@ -204,7 +204,7 @@ function handleKeyUp(e) {
       if (checkForBottom() && !checkBlockBelow()) currentCell += width
       break
     case 38:
-      if (checkForBottom() && !checkBlockBelow()) rotateBlock()
+      if (checkForBottom() && !checkBlockBelow() && !checkBlockRight() && !checkBlockLeft() && checkRight() && checkLeft()) rotateBlock()
       break
     default:
       console.log('unable to move')
@@ -290,7 +290,7 @@ function handleMusicClick() {
     music.src = ''
   } else {
     musicBtn.innerHTML = 'Music On &#128266;'
-    music.src = './sounds/tetris_theme_a.mp3'
+    music.src = './sounds/soviet_union_national_anthem.mp3'
     music.play()
   }
 }
