@@ -16,17 +16,24 @@
 
 <body>
   <header>
-    <h1>Tetris</h1>
+    <h1 class='tetris'>Tetris</h1>
   </header>
   <main>
-    <audio loop></audio>
+    <audio class="sound-effects"></audio>
+    <audio class="main-music" loop></audio>
     <div class="left">
-      <button class="reset">Start Game</button>
-      <p class="instructions">Instructions</p>
-      <button class="music" title="WARNING! Low volume is advised.">Play Music</button>
+      <button class="neon reset">Reset Game</button>
+      <p class="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &#9650;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rotate<br>&#9664; Left&nbsp;Right
+        &#9654;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Down<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &#9660;
+      </p>
+      <button class="neon music" title="WARNING! Low volume is advised.">Play Music</button>
     </div>
     <div class="game-over">
       <p class="game-over-p">GAME OVER</p>
+      <button class="neon game-over-btn" onClick="window.location.reload()" type="button">Restart Game</button>
     </div>
     <div class="grid-wrapper">
       <div class="grid"></div>

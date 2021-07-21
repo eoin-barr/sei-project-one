@@ -4,9 +4,9 @@ const resetGame = document.querySelector('.reset')
 const gameOverPopUp = document.querySelector('.game-over')
 const scoreDisplay = document.querySelector('#score-display')
 const levelDisplay = document.querySelector('#level-display')
-const music = document.querySelector('audio')
+const music = document.querySelector('.main-music')
 const musicBtn = document.querySelector('.music')
-
+const soundEffect = document.querySelector('.sound-effects')
 
 //* GRID VARIABLES
 const width = 10
@@ -88,6 +88,9 @@ function checkIfGameOver() {
 }
 
 function gameOver() {
+  soundEffect.src = './sounds/mission-failed.mp3'
+  soundEffect.play()
+  music.src = ''
   gameOverPopUp.classList.add('pop-up')
   grid.style.display = 'none'
 }
@@ -104,9 +107,22 @@ function removeBlock() {
   })
 }
 
-function blockInterval() {
-  const intervalId = setInterval(blockFall, 500)
-  return intervalId
+// const intervalId = setInterval(blockFall, 500)
+
+
+
+
+
+function handleResetGameClick() {
+  removeBlock()
+  filledCells.forEach(item => {
+    cells[item].classList.remove('block')
+  })
+  filledCells = []
+  score = 0
+  scoreDisplay.textContent = score
+  levelDisplay.textContent = 1
+  currentCell = 3
 }
 
 function blockFall() {
@@ -247,6 +263,8 @@ function fullRowCheck() {
   } if (newRowCheckArr.length < 0) {
     console.log('hopefully this is not printed')
   } else {
+    soundEffect.src = './sounds/bop.mp3'
+    soundEffect.play()
     score += (10000 * newRowCheckArr.length)
     scoreDisplay.textContent = score
     level()
@@ -267,10 +285,12 @@ function fullRowCheck() {
         return item
       }
     })
+
     filledCells.forEach(item => addClass(item))
-    console.log(filledCells)
   }
 }
+
+
 
 
 //! EXTRA FUNCTIONS ////////////////////////////////////////////////////////////
@@ -304,16 +324,6 @@ function level() {
   }
 }
 
-let resetClick = 0
-
-function handleResetGameClick() {
-  resetClick++
-  if (resetClick >= 1) {
-    resetGame.innerText = 'Restart Game'
-    filledCells = []
-    blockInterval()
-  }
-}
 
 
 //! EVENTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
