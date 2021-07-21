@@ -77,7 +77,10 @@ let currentRotation = 0
 let rand = Math.floor(Math.random() * blocks.length)
 let currentShape = blocks[rand][currentRotation]
 let currentCell = 3
-const x = currentCell % width
+// const x = currentCell % width
+
+
+
 
 function checkIfGameOver() {
   return filledCells.some(num => {
@@ -107,10 +110,7 @@ function removeBlock() {
   })
 }
 
-// const intervalId = setInterval(blockFall, 500)
-
-
-
+const intervalId = setInterval(blockFall, 500)
 
 
 function handleResetGameClick() {
@@ -138,6 +138,7 @@ function blockFall() {
   } else {
     addToFilledCells()
     console.log(filledCells)
+    console.log(cells[195].classList.value)
     anotherBlock()
     fullRowCheck()
   }
@@ -146,7 +147,7 @@ function blockFall() {
 
 function addToFilledCells() {
   for (let i = 0; i < cells.length; i++) {
-    if (cells[i].classList.value === 'block' && !filledCells.includes(parseInt(cells[i].dataset.index))) {
+    if (cells[i].classList.value !== '' && !filledCells.includes(parseInt(cells[i].dataset.index))) {
       filledCells.push(i)
     }
   }
@@ -285,7 +286,6 @@ function fullRowCheck() {
         return item
       }
     })
-
     filledCells.forEach(item => addClass(item))
   }
 }

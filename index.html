@@ -19,34 +19,36 @@
     <h1 class='tetris'>Tetris</h1>
   </header>
   <main>
-    <audio class="sound-effects"></audio>
-    <audio class="main-music" loop></audio>
-    <div class="left">
-      <button class="neon reset">Reset Game</button>
-      <p class="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &#9650;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rotate<br>&#9664; Left&nbsp;Right
-        &#9654;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        Down<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &#9660;
-      </p>
-      <button class="neon music" title="WARNING! Low volume is advised.">Play Music</button>
-    </div>
-    <div class="game-over">
-      <p class="game-over-p">GAME OVER</p>
-      <button class="neon game-over-btn" onClick="window.location.reload()" type="button">Restart Game</button>
-    </div>
-    <div class="grid-wrapper">
-      <div class="grid"></div>
-    </div>
-    <div class="right">
-      <div class="score-board">
-        <p class="score">Score</p>
-        <p class="score"><span id="score-display">0</span></p>
+    <div class="container">
+      <audio class="sound-effects"></audio>
+      <audio class="main-music" loop></audio>
+      <div class="left">
+        <button class="neon reset">Reset Game</button>
+        <p class="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &#9650;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rotate<br>&#9664; Left&nbsp;Right
+          &#9654;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Down<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &#9660;
+        </p>
+        <button class="neon music" title="WARNING! Low volume is advised.">Play Music</button>
       </div>
-      <p class="up-next">Up Next</p>
-      <div class="level-board">
-        <p class="level">Level</p>
-        <p class="level"><span id="level-display">1</span></p>
+      <div class="game-over">
+        <p class="game-over-p">GAME OVER</p>
+        <button class="neon game-over-btn" onClick="window.location.reload()" type="button">Restart Game</button>
+      </div>
+      <div class="grid-wrapper">
+        <div class="grid"></div>
+      </div>
+      <div class="right">
+        <div class="score-board">
+          <p class="score">Score</p>
+          <p class="score"><span id="score-display">0</span></p>
+        </div>
+        <p class="up-next">Up Next</p>
+        <div class="level-board">
+          <p class="level">Level</p>
+          <p class="level"><span id="level-display">1</span></p>
+        </div>
       </div>
     </div>
   </main>

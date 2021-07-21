@@ -27,6 +27,13 @@ main{
   justify-content: space-around;
 }
 
+.container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .left, .right{
   display: flex;
   flex-direction: column;
@@ -49,21 +56,19 @@ main{
   margin-bottom: 0;
 }
 
-
 .grid-wrapper {
   height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 80px;
 }
 
 h1{
-  margin-bottom: -20px;
+  margin-bottom: 0px;
   text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
   /* opacity: 0.9; */
 }
-
-
 
 .neon{
   background: none;
@@ -123,6 +128,7 @@ h1{
 } 
 
 .grid {
+  border: 1px solid #ff14bd;
   align-items: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   display: flex;
@@ -131,6 +137,7 @@ h1{
   justify-content: center;
   height: 900px;
   width: 450px;
+  opacity: 80%;
 }
 
 .grid div {
@@ -138,26 +145,21 @@ h1{
   flex-grow: 1;
   height: 5%;
   width: 10%;
+  opacity: 20%;
 }
 
 .grid div.block{
   background: url('../images/tetrisBlock.png');
   background-repeat: no-repeat;
   background-size: contain;
-  opacity: 40%;
+  opacity: 70%;
 }
-
-
-
-
 
 .game-over{
   display: none;
-  margin-top: 175px;
 }
 
 .pop-up{
-  /* background-color: blanchedalmond; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -166,4 +168,8 @@ h1{
   height: 600px;
   font-size: 3rem;
   margin-left: 80px;
+}
+
+.grid div.blue{
+  background: blue;
 }
