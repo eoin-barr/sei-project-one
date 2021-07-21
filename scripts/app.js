@@ -156,7 +156,7 @@ function addToFilledCells() {
 function anotherBlock() {
   rand = Math.floor(Math.random() * blocks.length)
   currentShape = blocks[rand][currentRotation]
-  currentCell = 4
+  currentCell = 3
   generateBlock()
 }
 

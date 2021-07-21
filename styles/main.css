@@ -135,8 +135,8 @@ h1{
   flex-wrap: wrap;
   height: 100%;
   justify-content: center;
-  height: 900px;
-  width: 450px;
+  height: 800px;
+  width: 400px;
   opacity: 80%;
 }
 
@@ -172,4 +172,48 @@ h1{
 
 .grid div.blue{
   background: blue;
+}
+
+@media only screen and (max-width: 1300px){
+
+  .instructions, .music, .level-board, .up-next, .score-board, .right, .reset{
+    display: none;
+  }
+  .container{
+    height: 1000px;
+    /* flex-direction: column-reverse; */
+  }
+
+  .reset{
+    margin: 0 auto;
+  }
+
+  h1{
+    margin: 10px 0;
+  }
+
+  header{
+    margin-left: 0;
+  }
+
+
+}
+@media only screen and (max-height: 1100px){
+  header{
+    font-size: 1rem;
+  }
+
+
+}
+
+@media only screen and (max-height: 900px){
+
+  header{
+    font-size: 1rem;
+  }
+
+  .grid {
+    height: 600px;
+    width: 300px;
+  }
 }
