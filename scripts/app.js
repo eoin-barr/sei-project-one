@@ -7,6 +7,7 @@ const levelDisplay = document.querySelector('#level-display')
 const music = document.querySelector('.main-music')
 const musicBtn = document.querySelector('.music')
 const soundEffect = document.querySelector('.sound-effects')
+const upNextImage = document.querySelector('.imgBlock')
 
 //* GRID VARIABLES
 const width = 10
@@ -76,10 +77,32 @@ const blocks = [lBlock, iBlock, tBlock, sBlock, zBlock, oBlock]
 let currentRotation = 0
 let rand = Math.floor(Math.random() * blocks.length)
 let currentShape = blocks[rand][currentRotation]
-let currentCell = 3
+let currentCell = 4
+// let randArr = Array.from({ length: 40 }, () => Math.floor(Math.random() * 6))
 // const x = currentCell % width
 
-
+function displayBlock() {
+  if (rand === 0) {
+    upNextImage.style.background = 'url("./images/lBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  } else if (rand === 1) {
+    upNextImage.style.background = 'url("./images/iBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  } else if (rand === 2) {
+    upNextImage.style.background = 'url("./images/tBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  } else if (rand === 3) {
+    upNextImage.style.background = 'url("./images/sBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  } else if (rand === 4) {
+    upNextImage.style.background = 'url("./images/zBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  } else if (rand === 5) {
+    upNextImage.style.background = 'url("./images/oBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  }
+}
+displayBlock()
 
 
 function checkIfGameOver() {
@@ -122,7 +145,7 @@ function handleResetGameClick() {
   score = 0
   scoreDisplay.textContent = score
   levelDisplay.textContent = 1
-  currentCell = 3
+  currentCell = 4
 }
 
 function blockFall() {
@@ -137,8 +160,6 @@ function blockFall() {
     return
   } else {
     addToFilledCells()
-    console.log(filledCells)
-    console.log(cells[195].classList.value)
     anotherBlock()
     fullRowCheck()
   }
@@ -156,7 +177,8 @@ function addToFilledCells() {
 function anotherBlock() {
   rand = Math.floor(Math.random() * blocks.length)
   currentShape = blocks[rand][currentRotation]
-  currentCell = 3
+  displayBlock()
+  currentCell = 4
   generateBlock()
 }
 
@@ -299,7 +321,6 @@ let musicClick = 0
 
 function handleMusicClick() {
   musicClick += 1
-  console.log(musicClick)
   if (musicClick % 2 === 0) {
     musicBtn.innerHTML = 'Music Off'
     music.src = ''

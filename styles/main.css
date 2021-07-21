@@ -41,8 +41,8 @@ main{
   align-items: center;
 }
 
-.reset, .instructions, .music, .score-board, .up-next, .level-board{
-  margin: 100px 0;
+.reset, .instructions, .music, .score-board, .up-next-img, .level-board{
+  margin: 90px 0;
   font-size: 2rem;
 }
 
@@ -170,8 +170,19 @@ h1{
   margin-left: 80px;
 }
 
-.grid div.blue{
-  background: blue;
+.level-board{
+  margin-top: 0px;
+}
+
+.up-next {
+  margin: 0 auto;
+}
+
+.imgBlock{
+  height: 200px;
+  /* background: url('../images/lBlock.png'); */
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 @media only screen and (max-width: 1300px){
