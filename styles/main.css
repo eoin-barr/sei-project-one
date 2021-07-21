@@ -16,6 +16,7 @@ body{
 }
 
 header{
+  margin-left: 80px;
   display: flex;
   justify-content: center;
   font-size: 3rem;
@@ -33,11 +34,21 @@ main{
   align-items: center;
 }
 
-.reset, .instructions, .music, .score-board, .up-next, .level{
+.reset, .instructions, .music, .score-board, .up-next, .level-board{
   margin: 100px 0;
-  font-size: 1.5rem;
-
+  font-size: 2rem;
 }
+
+.score-board, .level-board{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score, .level{
+  margin-bottom: 0;
+}
+
 
 .grid-wrapper {
   height: 75vh;
@@ -49,7 +60,7 @@ main{
 h1{
   margin-bottom: -20px;
   text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
-  opacity: 0.7;
+  /* opacity: 0.9; */
 }
 
 .reset, .music{
@@ -121,6 +132,10 @@ h1{
   background-size: contain;
   opacity: 40%;
 }
+
+
+
+
 
 .game-over{
   display: none;

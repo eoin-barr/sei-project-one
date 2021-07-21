@@ -3,6 +3,7 @@ const grid = document.querySelector('.grid')
 const resetGame = document.querySelector('.reset')
 const gameOverPopUp = document.querySelector('.game-over')
 const scoreDisplay = document.querySelector('#score-display')
+const levelDisplay = document.querySelector('#level-display')
 const music = document.querySelector('audio')
 const musicBtn = document.querySelector('.music')
 
@@ -103,7 +104,10 @@ function removeBlock() {
   })
 }
 
-const intervalId = setInterval(blockFall, 500)
+function blockInterval() {
+  const intervalId = setInterval(blockFall, 500)
+  return intervalId
+}
 
 function blockFall() {
   if (checkForBottom() && !checkBlockBelow()) {
@@ -212,7 +216,6 @@ function handleKeyUp(e) {
   generateBlock()
 }
 
-
 function rotateBlock() {
   removeBlock()
   currentRotation++
@@ -222,15 +225,6 @@ function rotateBlock() {
   currentShape = blocks[rand][currentRotation]
   generateBlock()
 }
-
-
-
-
-
-
-
-
-
 
 function addClass(position) {
   cells[position].classList.add('block')
@@ -253,8 +247,9 @@ function fullRowCheck() {
   } if (newRowCheckArr.length < 0) {
     console.log('hopefully this is not printed')
   } else {
-    score += (1000 * newRowCheckArr.length)
+    score += (10000 * newRowCheckArr.length)
     scoreDisplay.textContent = score
+    level()
     for (let i = 0; i < newRowCheckArr.length; i++) {
       for (let j = 0; j < width; j++) {
         finalArr.push(newRowCheckArr[i] + j)
@@ -286,20 +281,43 @@ function handleMusicClick() {
   musicClick += 1
   console.log(musicClick)
   if (musicClick % 2 === 0) {
-    musicBtn.innerHTML = 'Music Off &#128263;'
+    musicBtn.innerHTML = 'Music Off'
     music.src = ''
   } else {
-    musicBtn.innerHTML = 'Music On &#128266;'
+    musicBtn.innerHTML = 'Music On'
     music.src = './sounds/soviet_union_national_anthem.mp3'
     music.play()
   }
 }
 
+function level() {
+  if (score < 50000) {
+    levelDisplay.textContent = 1
+  } else if (score < 100000) {
+    levelDisplay.textContent = 2
+  } else if (score < 150000) {
+    levelDisplay.textContent = 3
+  } else if (score < 200000) {
+    levelDisplay.textContent = 4
+  } else {
+    levelDisplay.textContent = 5
+  }
+}
 
+let resetClick = 0
+
+function handleResetGameClick() {
+  resetClick++
+  if (resetClick >= 1) {
+    resetGame.innerText = 'Restart Game'
+    filledCells = []
+    blockInterval()
+  }
+}
 
 
 //! EVENTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// resetGame.addEventListener('click', handleResetGameClick)
+resetGame.addEventListener('click', handleResetGameClick)
 window.addEventListener('keyup', handleKeyUp)
 musicBtn.addEventListener('click', handleMusicClick)
