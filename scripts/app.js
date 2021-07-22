@@ -1,6 +1,7 @@
 //* DOM VARIABLES
 const grid = document.querySelector('.grid')
 const resetGame = document.querySelector('.reset')
+const startGame = document.querySelector('.start')
 const gameOverPopUp = document.querySelector('.game-over')
 const scoreDisplay = document.querySelector('#score-display')
 const levelDisplay = document.querySelector('#level-display')
@@ -8,6 +9,8 @@ const music = document.querySelector('.main-music')
 const musicBtn = document.querySelector('.music')
 const soundEffect = document.querySelector('.sound-effects')
 const upNextImage = document.querySelector('.imgBlock')
+const upNextSection = document.querySelector('.up-next-img')
+const instructionsSection = document.querySelector('.instructions')
 
 //* GRID VARIABLES
 const width = 10
@@ -91,8 +94,6 @@ let display = 1
 // let rand = Math.floor(Math.random() * blocks.length)
 let currentShape = blocks[numFromRandArr()][currentRotation]
 let currentCell = 4
-// const x = currentCell % width
-console.log(randArr)
 
 function numFromRandArr() {
   if (num === randArr.length - 1) {
@@ -108,24 +109,31 @@ function displayBlock() {
   if (randArr[display] === 0) {
     upNextImage.style.background = 'url("./images/jBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   } else if (randArr[display] === 1) {
     upNextImage.style.background = 'url("./images/iBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   } else if (randArr[display] === 2) {
     upNextImage.style.background = 'url("./images/tBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   } else if (randArr[display] === 3) {
     upNextImage.style.background = 'url("./images/sBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   } else if (randArr[display] === 4) {
     upNextImage.style.background = 'url("./images/zBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   } else if (randArr[display] === 5) {
     upNextImage.style.background = 'url("./images/oBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   } else if (randArr[display] === 6) {
     upNextImage.style.background = 'url("./images/lBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
   }
 }
 displayBlock()
@@ -144,6 +152,8 @@ function gameOver() {
   soundEffect.play()
   music.src = ''
   gameOverPopUp.classList.add('pop-up')
+  instructionsSection.style.display = 'none'
+  upNextSection.style.display = 'none'
   grid.style.display = 'none'
 }
 
@@ -159,7 +169,19 @@ function removeBlock() {
   })
 }
 
-const intervalId = setInterval(blockFall, 500)
+// const intervalId = setInterval(blockFall, 500)
+resetGame.style.display = 'none'
+upNextImage.style.display = 'none'
+function handleStartGame() {
+  soundEffect.src = 'sounds/start.wav.part'
+  soundEffect.play()
+  console.log('hiya')
+  startGame.style.display = 'none'
+  resetGame.style.display = 'flex'
+  upNextImage.style.display = 'flex'
+
+  window.intervalId = setInterval(blockFall, 500)
+}
 
 
 function handleResetGameClick() {
@@ -355,6 +377,7 @@ function handleMusicClick() {
   } else {
     musicBtn.innerHTML = 'Music On'
     music.src = './sounds/soviet_union_national_anthem.mp3'
+    // music.src = './sounds/sax2.mp3.part'
     music.play()
   }
 }
@@ -378,5 +401,6 @@ function level() {
 //! EVENTS //////////////////////////////////////////////////////////////////////////
 
 resetGame.addEventListener('click', handleResetGameClick)
+startGame.addEventListener('click', handleStartGame)
 window.addEventListener('keyup', handleKeyUp)
 musicBtn.addEventListener('click', handleMusicClick)

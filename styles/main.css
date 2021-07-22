@@ -41,8 +41,8 @@ main{
   align-items: center;
 }
 
-.reset, .instructions, .music, .score-board, .up-next-img, .level-board{
-  margin: 90px 0;
+.start .reset, .instructions, .music, .score-board, .up-next-img, .level-board{
+  margin: 40% 0;
   font-size: 2rem;
 }
 
@@ -54,6 +54,10 @@ main{
 
 .score, .level{
   margin-bottom: 0;
+}
+
+.level .word{
+  margin-top: 0;
 }
 
 .grid-wrapper {
@@ -180,12 +184,30 @@ h1{
 
 .imgBlock{
   height: 200px;
+  width: 150px;
   /* background: url('../images/lBlock.png'); */
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-@media only screen and (max-width: 1300px){
+@media only screen and (max-width: 1100px){
+
+  h1{
+    display: none;
+  }
+
+.start, .reset, .instructions, .music, .score-board, .up-next-img, .level-board{
+  margin: 10% 0;
+  font-size: 1rem;
+}
+
+.container{
+  margin-top: 3%;
+}
+
+}
+
+@media only screen and (max-width: 800px){
 
   .instructions, .music, .level-board, .up-next, .score-board, .right, .reset{
     display: none;
@@ -195,7 +217,7 @@ h1{
     /* flex-direction: column-reverse; */
   }
 
-  .reset{
+  .start, .reset{
     margin: 0 auto;
   }
 
@@ -209,22 +231,32 @@ h1{
 
 
 }
-@media only screen and (max-height: 1100px){
-  header{
+@media only screen and (max-height: 1050px){
+  h1{
+    display: none;
+  }
+
+  .container{
+    height: 600px;
+    margin-top: 3%;
+  }
+
+  .start, .reset, .instructions, .music, .score-board, .up-next-img, .level-board{
+    margin: 10% 0;
     font-size: 1rem;
   }
 
+  .imgBlock{
+    height: 100px;
+    width: 75px;
 
-}
-
-@media only screen and (max-height: 900px){
-
-  header{
-    font-size: 1rem;
   }
+
 
   .grid {
     height: 600px;
     width: 300px;
   }
+
 }
+
