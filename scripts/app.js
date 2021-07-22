@@ -32,7 +32,7 @@ function createGrid() {
 }
 createGrid()
 
-const lBlock = [
+const jBlock = [
   [1, 2, 1 + width, 1 + width * 2],
   [width, 1 + width, 2 + width, 2 + width * 2],
   [width * 2, 1 + width * 2, 1 + width, 1],
@@ -73,32 +73,58 @@ const oBlock = [
   [0, 1, width, 1 + width],
   [0, 1, width, 1 + width]
 ]
-const blocks = [lBlock, iBlock, tBlock, sBlock, zBlock, oBlock]
+
+const lBlock = [
+  [0, 1, 1 + width, 1 + width * 2],
+  [width, 1 + width, 2 + width, 2],
+  [1, 1 + width, 1 + width * 2, 2 + width * 2],
+  [width, width * 2, 1 + width, 2 + width]
+]
+
+
+let randArr = Array.from({ length: 250 }, () => Math.floor(Math.random() * 7))
+
+const blocks = [jBlock, iBlock, tBlock, sBlock, zBlock, oBlock, lBlock]
 let currentRotation = 0
-let rand = Math.floor(Math.random() * blocks.length)
-let currentShape = blocks[rand][currentRotation]
+let num = 0
+let display = 1
+// let rand = Math.floor(Math.random() * blocks.length)
+let currentShape = blocks[numFromRandArr()][currentRotation]
 let currentCell = 4
-// let randArr = Array.from({ length: 40 }, () => Math.floor(Math.random() * 6))
 // const x = currentCell % width
+console.log(randArr)
+
+function numFromRandArr() {
+  if (num === randArr.length - 1) {
+    display = 1
+    num = 0
+    return randArr[num]
+  } else {
+    return randArr[num]
+  }
+}
 
 function displayBlock() {
-  if (rand === 0) {
-    upNextImage.style.background = 'url("./images/lBlock.png")'
+  if (randArr[display] === 0) {
+    upNextImage.style.background = 'url("./images/jBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
-  } else if (rand === 1) {
+  } else if (randArr[display] === 1) {
     upNextImage.style.background = 'url("./images/iBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
-  } else if (rand === 2) {
+  } else if (randArr[display] === 2) {
     upNextImage.style.background = 'url("./images/tBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
-  } else if (rand === 3) {
+  } else if (randArr[display] === 3) {
     upNextImage.style.background = 'url("./images/sBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
-  } else if (rand === 4) {
+  } else if (randArr[display] === 4) {
     upNextImage.style.background = 'url("./images/zBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
-  } else if (rand === 5) {
+  } else if (randArr[display] === 5) {
     upNextImage.style.background = 'url("./images/oBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+  } else if (randArr[display] === 6) {
+    upNextImage.style.background = 'url("./images/lBlock.png")'
     upNextImage.style.backgroundRepeat = 'no-repeat'
   }
 }
@@ -175,8 +201,10 @@ function addToFilledCells() {
 }
 
 function anotherBlock() {
-  rand = Math.floor(Math.random() * blocks.length)
-  currentShape = blocks[rand][currentRotation]
+  // rand = Math.floor(Math.random() * blocks.length)
+  display++
+  num++
+  currentShape = blocks[numFromRandArr()][currentRotation]
   displayBlock()
   currentCell = 4
   generateBlock()
@@ -261,7 +289,7 @@ function rotateBlock() {
   if (currentRotation === 4) {
     currentRotation = 0
   }
-  currentShape = blocks[rand][currentRotation]
+  currentShape = blocks[numFromRandArr()][currentRotation]
   generateBlock()
 }
 
