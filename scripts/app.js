@@ -266,25 +266,6 @@ function handleKeyUp(e) {
   generateBlock()
 }
 
-// function checkRightRotation() {
-//   currentRotation++
-//   currentShape = blocks[num][currentRotation]
-//   const x = currentShape.map(index => {
-//     if ((index + currentCell) % width === false) {
-//       console.log('hiya')
-//     } else {
-//       return (index + currentCell) % width
-//     }
-//   })
-//   if (x.length === 4) {
-//     return true
-//   } else {
-//     currentRotation--
-//     currentShape = blocks[num][currentRotation]
-//     return false
-//   }
-// }
-
 function rotateBlock() {
   removeBlock()
   currentRotation++
