@@ -18,22 +18,9 @@ const height = width * 2
 const gridCellCount = width * height
 const cells = []
 
-
 //* GAMES VARIABLES
 let score = 0
 let filledCells = []
-
-
-//! TETRIS FUNCTIONS ////////////////////////////////////////////////////////////
-function createGrid() {
-  for (let i = 0; i < gridCellCount; i++) {
-    const cell = document.createElement('div')
-    cell.setAttribute('data-index', i)
-    cells.push(cell)
-    grid.appendChild(cell)
-  }
-}
-createGrid()
 
 const jBlock = [
   [1, 2, 1 + width, 1 + width * 2],
@@ -84,16 +71,26 @@ const lBlock = [
   [width, width * 2, 1 + width, 2 + width]
 ]
 
-
-let randArr = Array.from({ length: 250 }, () => Math.floor(Math.random() * 7))
-
+// let rand = Math.floor(Math.random() * blocks.length)
+const randArr = Array.from({ length: 250 }, () => Math.floor(Math.random() * 7))
 const blocks = [jBlock, iBlock, tBlock, sBlock, zBlock, oBlock, lBlock]
 let currentRotation = 0
 let num = 0
 let display = 1
-// let rand = Math.floor(Math.random() * blocks.length)
 let currentShape = blocks[numFromRandArr()][currentRotation]
 let currentCell = 4
+
+
+//! TETRIS FUNCTIONS ////////////////////////////////////////////////////////////
+function createGrid() {
+  for (let i = 0; i < gridCellCount; i++) {
+    const cell = document.createElement('div')
+    cell.setAttribute('data-index', i)
+    cells.push(cell)
+    grid.appendChild(cell)
+  }
+}
+createGrid()
 
 function numFromRandArr() {
   if (num === randArr.length - 1) {
@@ -104,40 +101,6 @@ function numFromRandArr() {
     return randArr[num]
   }
 }
-
-function displayBlock() {
-  if (randArr[display] === 0) {
-    upNextImage.style.background = 'url("./images/jBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  } else if (randArr[display] === 1) {
-    upNextImage.style.background = 'url("./images/iBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  } else if (randArr[display] === 2) {
-    upNextImage.style.background = 'url("./images/tBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  } else if (randArr[display] === 3) {
-    upNextImage.style.background = 'url("./images/sBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  } else if (randArr[display] === 4) {
-    upNextImage.style.background = 'url("./images/zBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  } else if (randArr[display] === 5) {
-    upNextImage.style.background = 'url("./images/oBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  } else if (randArr[display] === 6) {
-    upNextImage.style.background = 'url("./images/lBlock.png")'
-    upNextImage.style.backgroundRepeat = 'no-repeat'
-    upNextImage.style.backgroundSize = 'contain'
-  }
-}
-displayBlock()
-
 
 function checkIfGameOver() {
   return filledCells.some(num => {
@@ -175,14 +138,12 @@ upNextImage.style.display = 'none'
 function handleStartGame() {
   soundEffect.src = 'sounds/start.wav.part'
   soundEffect.play()
-  console.log('hiya')
   startGame.style.display = 'none'
   resetGame.style.display = 'flex'
   upNextImage.style.display = 'flex'
 
   window.intervalId = setInterval(blockFall, 500)
 }
-
 
 function handleResetGameClick() {
   removeBlock()
@@ -203,7 +164,6 @@ function blockFall() {
     generateBlock()
   } else if (checkIfGameOver()) {
     clearInterval(intervalId)
-    console.log('Game Over')
     gameOver()
     return
   } else {
@@ -212,7 +172,6 @@ function blockFall() {
     fullRowCheck()
   }
 }
-
 
 function addToFilledCells() {
   for (let i = 0; i < cells.length; i++) {
@@ -327,8 +286,8 @@ function fullRowCheck() {
   const sortedArr = filledCells.sort((a, b) => {
     return a - b
   })
-  let finalArr = []
-  let newRowCheckArr = []
+  const finalArr = []
+  const newRowCheckArr = []
   for (let i = 0; i < sortedArr.length; i++) {
     if (sortedArr[i] % width === 0 && ((sortedArr[i] + (width - 1)) === (sortedArr[i + (width - 1)]))) {
       newRowCheckArr.push(sortedArr[i])
@@ -362,9 +321,6 @@ function fullRowCheck() {
   }
 }
 
-
-
-
 //! EXTRA FUNCTIONS ////////////////////////////////////////////////////////////
 
 let musicClick = 0
@@ -396,7 +352,38 @@ function level() {
   }
 }
 
-
+function displayBlock() {
+  if (randArr[display] === 0) {
+    upNextImage.style.background = 'url("./images/jBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  } else if (randArr[display] === 1) {
+    upNextImage.style.background = 'url("./images/iBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  } else if (randArr[display] === 2) {
+    upNextImage.style.background = 'url("./images/tBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  } else if (randArr[display] === 3) {
+    upNextImage.style.background = 'url("./images/sBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  } else if (randArr[display] === 4) {
+    upNextImage.style.background = 'url("./images/zBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  } else if (randArr[display] === 5) {
+    upNextImage.style.background = 'url("./images/oBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  } else if (randArr[display] === 6) {
+    upNextImage.style.background = 'url("./images/lBlock.png")'
+    upNextImage.style.backgroundRepeat = 'no-repeat'
+    upNextImage.style.backgroundSize = 'contain'
+  }
+}
+displayBlock()
 
 //! EVENTS //////////////////////////////////////////////////////////////////////////
 
