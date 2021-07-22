@@ -135,7 +135,9 @@ function removeBlock() {
 // const intervalId = setInterval(blockFall, 500)
 resetGame.style.display = 'none'
 upNextImage.style.display = 'none'
+
 function handleStartGame() {
+  window.addEventListener('keyup', handleKeyUp)
   soundEffect.src = 'sounds/start.wav.part'
   soundEffect.play()
   startGame.style.display = 'none'
@@ -264,6 +266,25 @@ function handleKeyUp(e) {
   generateBlock()
 }
 
+// function checkRightRotation() {
+//   currentRotation++
+//   currentShape = blocks[num][currentRotation]
+//   const x = currentShape.map(index => {
+//     if ((index + currentCell) % width === false) {
+//       console.log('hiya')
+//     } else {
+//       return (index + currentCell) % width
+//     }
+//   })
+//   if (x.length === 4) {
+//     return true
+//   } else {
+//     currentRotation--
+//     currentShape = blocks[num][currentRotation]
+//     return false
+//   }
+// }
+
 function rotateBlock() {
   removeBlock()
   currentRotation++
@@ -389,5 +410,5 @@ displayBlock()
 
 resetGame.addEventListener('click', handleResetGameClick)
 startGame.addEventListener('click', handleStartGame)
-window.addEventListener('keyup', handleKeyUp)
+// window.addEventListener('keyup', handleKeyUp)
 musicBtn.addEventListener('click', handleMusicClick)
